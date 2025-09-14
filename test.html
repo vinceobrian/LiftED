@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiftED - Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #2563EB;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #1E40AF;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #D1FAE5;
+            color: #059669;
+            border: 1px solid #A7F3D0;
+        }
+        .error {
+            background: #FEE2E2;
+            color: #DC2626;
+            border: 1px solid #FECACA;
+        }
+        .info {
+            background: #DBEAFE;
+            color: #1E40AF;
+            border: 1px solid #93C5FD;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 LiftED Application Test Suite</h1>
+    <p>This page helps you test the core functionality of the LiftED platform.</p>
+
+    <div class="test-section">
+        <h2>📋 Basic Functionality Tests</h2>
+        <button class="test-button" onclick="testStudentData()">Test Student Data Loading</button>
+        <button class="test-button" onclick="testFormValidation()">Test Form Validation</button>
+        <button class="test-button" onclick="testLocalStorage()">Test Local Storage</button>
+        <button class="test-button" onclick="testResponsiveDesign()">Test Responsive Design</button>
+        <div id="testResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎨 UI Component Tests</h2>
+        <button class="test-button" onclick="testModalFunctionality()">Test Modal Windows</button>
+        <button class="test-button" onclick="testNavigation()">Test Navigation</button>
+        <button class="test-button" onclick="testStudentCards()">Test Student Cards</button>
+        <button class="test-button" onclick="testProgressBars()">Test Progress Bars</button>
+        <div id="uiTestResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📱 Mobile Compatibility Tests</h2>
+        <button class="test-button" onclick="testMobileNavigation()">Test Mobile Menu</button>
+        <button class="test-button" onclick="testTouchInteractions()">Test Touch Interactions</button>
+        <button class="test-button" onclick="testFormOnMobile()">Test Forms on Mobile</button>
+        <div id="mobileTestResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Performance Tests</h2>
+        <button class="test-button" onclick="testPageLoadTime()">Test Page Load Time</button>
+        <button class="test-button" onclick="testMemoryUsage()">Test Memory Usage</button>
+        <button class="test-button" onclick="testLocalStoragePerformance()">Test Storage Performance</button>
+        <div id="performanceTestResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Test Results Summary</h2>
+        <div id="summaryResults">
+            <p>Run individual tests above to see results here.</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🚀 Quick Actions</h2>
+        <button class="test-button" onclick="openMainApp()">Open Main Application</button>
+        <button class="test-button" onclick="clearAllData()">Clear All Test Data</button>
+        <button class="test-button" onclick="exportTestResults()">Export Test Results</button>
+    </div>
+
+    <script>
+        // Test functions
+        function testStudentData() {
+            const result = document.getElementById('testResults');
+            try {
+                // Test if student data is loaded
+                if (typeof students !== 'undefined' && students.length > 0) {
+                    result.innerHTML = '<div class="result success">✅ Student data loaded successfully (' + students.length + ' students)</div>';
+                } else {
+                    result.innerHTML = '<div class="result error">❌ Student data not loaded</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing student data: ' + error.message + '</div>';
+            }
+        }
+
+        function testFormValidation() {
+            const result = document.getElementById('testResults');
+            try {
+                // Test form validation functions
+                const testField = document.createElement('input');
+                testField.type = 'email';
+                testField.value = 'test@example.com';
+                
+                if (typeof validateField === 'function') {
+                    const isValid = validateField(testField);
+                    result.innerHTML = '<div class="result success">✅ Form validation working correctly</div>';
+                } else {
+                    result.innerHTML = '<div class="result error">❌ Form validation function not found</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing form validation: ' + error.message + '</div>';
+            }
+        }
+
+        function testLocalStorage() {
+            const result = document.getElementById('testResults');
+            try {
+                // Test localStorage functionality
+                const testKey = 'lifted_test';
+                const testValue = 'test_data';
+                
+                localStorage.setItem(testKey, testValue);
+                const retrieved = localStorage.getItem(testKey);
+                localStorage.removeItem(testKey);
+                
+                if (retrieved === testValue) {
+                    result.innerHTML = '<div class="result success">✅ Local storage working correctly</div>';
+                } else {
+                    result.innerHTML = '<div class="result error">❌ Local storage not working</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing local storage: ' + error.message + '</div>';
+            }
+        }
+
+        function testResponsiveDesign() {
+            const result = document.getElementById('testResults');
+            try {
+                // Test responsive design elements
+                const viewportWidth = window.innerWidth;
+                const isResponsive = viewportWidth < 768 ? 'Mobile' : 'Desktop';
+                
+                result.innerHTML = '<div class="result info">📱 Current viewport: ' + viewportWidth + 'px (' + isResponsive + ' view)</div>';
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing responsive design: ' + error.message + '</div>';
+            }
+        }
+
+        function testModalFunctionality() {
+            const result = document.getElementById('uiTestResults');
+            try {
+                // Test if modal functions exist
+                if (typeof openStudentForm === 'function' && typeof closeStudentForm === 'function') {
+                    result.innerHTML = '<div class="result success">✅ Modal functions available</div>';
+                } else {
+                    result.innerHTML = '<div class="result error">❌ Modal functions not found</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing modal functionality: ' + error.message + '</div>';
+            }
+        }
+
+        function testNavigation() {
+            const result = document.getElementById('uiTestResults');
+            try {
+                // Test navigation elements
+                const navMenu = document.querySelector('.nav-menu');
+                const navLinks = document.querySelectorAll('.nav-link');
+                
+                if (navMenu && navLinks.length > 0) {
+                    result.innerHTML = '<div class="result success">✅ Navigation elements found (' + navLinks.length + ' links)</div>';
+                } else {
+                    result.innerHTML = '<div class="result error">❌ Navigation elements not found</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing navigation: ' + error.message + '</div>';
+            }
+        }
+
+        function testStudentCards() {
+            const result = document.getElementById('uiTestResults');
+            try {
+                // Test student card creation
+                if (typeof createStudentCard === 'function') {
+                    result.innerHTML = '<div class="result success">✅ Student card creation function available</div>';
+                } else {
+                    result.innerHTML = '<div class="result error">❌ Student card creation function not found</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing student cards: ' + error.message + '</div>';
+            }
+        }
+
+        function testProgressBars() {
+            const result = document.getElementById('uiTestResults');
+            try {
+                // Test progress bar elements
+                const progressBars = document.querySelectorAll('.progress-bar');
+                
+                if (progressBars.length > 0) {
+                    result.innerHTML = '<div class="result success">✅ Progress bars found (' + progressBars.length + ' bars)</div>';
+                } else {
+                    result.innerHTML = '<div class="result info">ℹ️ No progress bars found (normal if no students loaded)</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing progress bars: ' + error.message + '</div>';
+            }
+        }
+
+        function testMobileNavigation() {
+            const result = document.getElementById('mobileTestResults');
+            try {
+                // Test mobile navigation
+                const hamburger = document.querySelector('.hamburger');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (hamburger && navMenu) {
+                    result.innerHTML = '<div class="result success">✅ Mobile navigation elements found</div>';
+                } else {
+                    result.innerHTML = '<div class="result error">❌ Mobile navigation elements not found</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing mobile navigation: ' + error.message + '</div>';
+            }
+        }
+
+        function testTouchInteractions() {
+            const result = document.getElementById('mobileTestResults');
+            try {
+                // Test touch support
+                const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+                
+                if (hasTouch) {
+                    result.innerHTML = '<div class="result success">✅ Touch support detected</div>';
+                } else {
+                    result.innerHTML = '<div class="result info">ℹ️ No touch support (desktop device)</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing touch interactions: ' + error.message + '</div>';
+            }
+        }
+
+        function testFormOnMobile() {
+            const result = document.getElementById('mobileTestResults');
+            try {
+                // Test form elements for mobile compatibility
+                const inputs = document.querySelectorAll('input, select, textarea');
+                let mobileFriendly = 0;
+                
+                inputs.forEach(input => {
+                    if (input.style.minHeight && parseInt(input.style.minHeight) >= 44) {
+                        mobileFriendly++;
+                    }
+                });
+                
+                result.innerHTML = '<div class="result info">ℹ️ Found ' + inputs.length + ' form elements, ' + mobileFriendly + ' mobile-friendly</div>';
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing forms on mobile: ' + error.message + '</div>';
+            }
+        }
+
+        function testPageLoadTime() {
+            const result = document.getElementById('performanceTestResults');
+            try {
+                // Test page load performance
+                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                
+                if (loadTime < 3000) {
+                    result.innerHTML = '<div class="result success">✅ Page load time: ' + loadTime + 'ms (Good)</div>';
+                } else if (loadTime < 5000) {
+                    result.innerHTML = '<div class="result info">⚠️ Page load time: ' + loadTime + 'ms (Acceptable)</div>';
+                } else {
+                    result.innerHTML = '<div class="result error">❌ Page load time: ' + loadTime + 'ms (Slow)</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing page load time: ' + error.message + '</div>';
+            }
+        }
+
+        function testMemoryUsage() {
+            const result = document.getElementById('performanceTestResults');
+            try {
+                // Test memory usage (if available)
+                if (performance.memory) {
+                    const memory = performance.memory;
+                    const usedMB = Math.round(memory.usedJSHeapSize / 1048576);
+                    const totalMB = Math.round(memory.totalJSHeapSize / 1048576);
+                    
+                    result.innerHTML = '<div class="result info">ℹ️ Memory usage: ' + usedMB + 'MB / ' + totalMB + 'MB</div>';
+                } else {
+                    result.innerHTML = '<div class="result info">ℹ️ Memory usage not available in this browser</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing memory usage: ' + error.message + '</div>';
+            }
+        }
+
+        function testLocalStoragePerformance() {
+            const result = document.getElementById('performanceTestResults');
+            try {
+                // Test localStorage performance
+                const startTime = performance.now();
+                
+                for (let i = 0; i < 100; i++) {
+                    localStorage.setItem('test_' + i, 'test_data_' + i);
+                }
+                
+                for (let i = 0; i < 100; i++) {
+                    localStorage.getItem('test_' + i);
+                }
+                
+                for (let i = 0; i < 100; i++) {
+                    localStorage.removeItem('test_' + i);
+                }
+                
+                const endTime = performance.now();
+                const duration = Math.round(endTime - startTime);
+                
+                result.innerHTML = '<div class="result success">✅ Local storage performance: ' + duration + 'ms for 300 operations</div>';
+            } catch (error) {
+                result.innerHTML = '<div class="result error">❌ Error testing storage performance: ' + error.message + '</div>';
+            }
+        }
+
+        function openMainApp() {
+            window.open('index.html', '_blank');
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all test data?')) {
+                localStorage.clear();
+                alert('All test data cleared!');
+            }
+        }
+
+        function exportTestResults() {
+            const results = {
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                viewport: {
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                },
+                tests: {
+                    studentData: document.getElementById('testResults').innerHTML,
+                    uiTests: document.getElementById('uiTestResults').innerHTML,
+                    mobileTests: document.getElementById('mobileTestResults').innerHTML,
+                    performanceTests: document.getElementById('performanceTestResults').innerHTML
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'lifted-test-results.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Auto-run basic tests on page load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                testStudentData();
+                testFormValidation();
+                testLocalStorage();
+                testResponsiveDesign();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

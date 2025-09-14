@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiftED - Lifting Students, One Dream at a Time</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>LiftED</h2>
+                <span class="tagline">Lifting Students, One Dream at a Time</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#students" class="nav-link">Students</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><button class="btn-primary" onclick="openStudentForm()">Apply for Support</button></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>LiftED</h1>
+                <h2>Lifting Students, One Dream at a Time</h2>
+                <p>Connect students in need with donors who care. Help talented students complete their education and break the cycle of poverty.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="scrollToStudents()">Support Students</button>
+                    <button class="btn-secondary" onclick="openStudentForm()">Apply for Support</button>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <h3>10+</h3>
+                    <p>Students Supported</p>
+                </div>
+                <div class="stat">
+                    <h3>KShs 30,000+</h3>
+                    <p>Raised</p>
+                </div>
+                <div class="stat">
+                    <h3>95%</h3>
+                    <p>Success Rate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Students Section -->
+    <section id="students" class="students-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Students in Need</h2>
+                <p>Help these talented students achieve their educational dreams</p>
+            </div>
+            
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All Students</button>
+                <button class="filter-btn" data-filter="urgent">Urgent</button>
+                <button class="filter-btn" data-filter="medical">Medical</button>
+                <button class="filter-btn" data-filter="tuition">Tuition</button>
+            </div>
+
+            <div class="students-grid" id="studentsGrid">
+                <!-- Student cards will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Our Mission</h2>
+                    <p>LiftED is a student-focused crowdfunding platform designed to solve the problem of students dropping out due to lack of financial support. We connect students in need with donors, alumni, and organizations willing to fund their education.</p>
+                    <p>Our mission is simple: To lift students out of financial barriers and give them a fair chance to complete their education.</p>
+                    <div class="mission-points">
+                        <div class="mission-point">
+                            <i class="fas fa-graduation-cap"></i>
+                            <div>
+                                <h4>Verified Students</h4>
+                                <p>All students are verified with admission letters and fee statements</p>
+                            </div>
+                        </div>
+                        <div class="mission-point">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <h4>Transparent Process</h4>
+                                <p>Funds go directly to schools to ensure proper use</p>
+                            </div>
+                        </div>
+                        <div class="mission-point">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <h4>Track Progress</h4>
+                                <p>Donors receive updates on student achievements</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder">
+                        <i class="fas fa-users"></i>
+                        <p>Students achieving their dreams</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>Get in Touch</h2>
+                    <p>Have questions? Want to partner with us? We'd love to hear from you.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>info@lifted.co.ke</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+254 700 000 000</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Nairobi, Kenya</span>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="contactName" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="contactEmail" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="contactMessage" placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>LiftED</h3>
+                    <p>Lifting Students, One Dream at a Time</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#students">Students</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">How it Works</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Stay updated with our latest news</p>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Your email">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LiftED. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Student Application Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Apply for Educational Support</h2>
+                <span class="close" onclick="closeStudentForm()">&times;</span>
+            </div>
+            <form id="studentForm" class="student-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="institution">Institution *</label>
+                    <input type="text" id="institution" placeholder="University/College name" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="course">Course/Program *</label>
+                        <input type="text" id="course" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Year of Study *</label>
+                        <select id="year" required>
+                            <option value="">Select Year</option>
+                            <option value="1">Year 1</option>
+                            <option value="2">Year 2</option>
+                            <option value="3">Year 3</option>
+                            <option value="4">Year 4</option>
+                            <option value="5">Year 5</option>
+                            <option value="6">Year 6</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="amountNeeded">Amount Needed (KSh) *</label>
+                    <input type="number" id="amountNeeded" placeholder="e.g., 50000" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fundingType">Type of Funding Needed *</label>
+                    <select id="fundingType" required>
+                        <option value="">Select Type</option>
+                        <option value="tuition">Tuition Fees</option>
+                        <option value="exam">Exam Fees</option>
+                        <option value="books">Books & Materials</option>
+                        <option value="accommodation">Accommodation</option>
+                        <option value="medical">Medical Emergency</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="story">Your Story *</label>
+                    <textarea id="story" placeholder="Tell us about your background, challenges, and how this support will help you achieve your educational goals..." rows="5" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="documents">Upload Documents</label>
+                    <input type="file" id="documents" multiple accept=".pdf,.jpg,.jpeg,.png" />
+                    <small>Upload admission letter, fee statement, or other supporting documents</small>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeStudentForm()">Cancel</button>
+                    <button type="submit" class="btn-primary">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Donation Modal -->
+    <div id="donationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Support This Student</h2>
+                <span class="close" onclick="closeDonationModal()">&times;</span>
+            </div>
+            <div class="donation-content">
+                <div class="student-info" id="donationStudentInfo">
+                    <!-- Student info will be populated here -->
+                </div>
+                <form id="donationForm" class="donation-form">
+                    <div class="form-group">
+                        <label for="donorName">Your Name *</label>
+                        <input type="text" id="donorName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="donorEmail">Email *</label>
+                        <input type="email" id="donorEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="donationAmount">Donation Amount (KSh) *</label>
+                        <input type="number" id="donationAmount" placeholder="Enter amount" required>
+                        <div class="quick-amounts">
+                            <button type="button" class="quick-amount" data-amount="1000">KShs 1,000</button>
+                            <button type="button" class="quick-amount" data-amount="5000">KShs 5,000</button>
+                            <button type="button" class="quick-amount" data-amount="10000">KShs 10,000</button>
+                            <button type="button" class="quick-amount" data-amount="25000">KShs 25,000</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method *</label>
+                        <select id="paymentMethod" required>
+                            <option value="">Select Payment Method</option>
+                            <option value="mpesa">M-Pesa</option>
+                            <option value="card">Credit/Debit Card</option>
+                            <option value="bank">Bank Transfer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="donorMessage">Message (Optional)</label>
+                        <textarea id="donorMessage" placeholder="Leave an encouraging message for the student..." rows="3"></textarea>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="anonymous" />
+                            <span class="checkmark"></span>
+                            Donate anonymously
+                        </label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeDonationModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Proceed to Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content success-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Thank You!</h2>
+            <p id="successMessage">Your application has been submitted successfully.</p>
+            <button class="btn-primary" onclick="closeSuccessModal()">Close</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

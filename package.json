@@ -1,0 +1,23 @@
+{
+  "name": "lifted-crowdfunding",
+  "version": "1.0.0",
+  "description": "LiftED - Student crowdfunding platform for education support",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server . -p 3000 -o",
+    "dev": "npx live-server --port=3000 --open=/index.html"
+  },
+  "keywords": [
+    "crowdfunding",
+    "education",
+    "students",
+    "charity",
+    "kenya"
+  ],
+  "author": "LiftED Team",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  }
+}

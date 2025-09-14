@@ -1,0 +1,138 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "firstName": "Grace",
+      "lastName": "Mwangi",
+      "course": "Medicine",
+      "institution": "University of Nairobi",
+      "year": 3,
+      "amountNeeded": 150000,
+      "amountRaised": 75000,
+      "story": "I'm a third-year medical student with a passion for helping underserved communities. My family has been struggling financially, and I need support to complete my studies and become a doctor who can serve rural areas.",
+      "fundingType": "tuition",
+      "urgent": true,
+      "daysLeft": 15,
+      "documents": ["admission_letter.pdf", "fee_statement.pdf"],
+      "progress": 50,
+      "email": "grace.mwangi@example.com",
+      "phone": "+254700123456",
+      "impactStories": [
+        {
+          "date": "2024-01-15",
+          "title": "Mid-term Exams Passed",
+          "description": "Grace successfully passed all her mid-term exams with excellent grades. She's on track to graduate on time."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "firstName": "Peter",
+      "lastName": "Ochieng",
+      "course": "Computer Science",
+      "institution": "Strathmore University",
+      "year": 2,
+      "amountNeeded": 80000,
+      "amountRaised": 32000,
+      "story": "I'm studying Computer Science and have been developing mobile apps to help small businesses. I need financial support to continue my education and eventually create tech solutions for African problems.",
+      "fundingType": "tuition",
+      "urgent": false,
+      "daysLeft": 45,
+      "documents": ["admission_letter.pdf"],
+      "progress": 40,
+      "email": "peter.ochieng@example.com",
+      "phone": "+254700234567",
+      "impactStories": [
+        {
+          "date": "2024-01-10",
+          "title": "App Development Project",
+          "description": "Peter completed his mobile app project and received recognition from his professors. The app helps local farmers track crop prices."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "firstName": "Mary",
+      "lastName": "Wanjiku",
+      "course": "Engineering",
+      "institution": "JKUAT",
+      "year": 4,
+      "amountNeeded": 120000,
+      "amountRaised": 96000,
+      "story": "I'm in my final year of Civil Engineering. I've maintained excellent grades and have been involved in community projects. I need support to complete my final year and graduate.",
+      "fundingType": "tuition",
+      "urgent": false,
+      "daysLeft": 30,
+      "documents": ["admission_letter.pdf", "transcript.pdf"],
+      "progress": 80,
+      "email": "mary.wanjiku@example.com",
+      "phone": "+254700345678",
+      "impactStories": [
+        {
+          "date": "2024-01-20",
+          "title": "Final Project Completion",
+          "description": "Mary completed her final year project on sustainable water management systems for rural communities."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "firstName": "David",
+      "lastName": "Kimani",
+      "course": "Business Administration",
+      "institution": "Kenyatta University",
+      "year": 1,
+      "amountNeeded": 60000,
+      "amountRaised": 12000,
+      "story": "I'm a first-year business student with dreams of starting my own company. My family runs a small business, and I want to learn how to scale it and create employment opportunities.",
+      "fundingType": "tuition",
+      "urgent": true,
+      "daysLeft": 20,
+      "documents": ["admission_letter.pdf"],
+      "progress": 20,
+      "email": "david.kimani@example.com",
+      "phone": "+254700456789",
+      "impactStories": []
+    },
+    {
+      "id": 5,
+      "firstName": "Sarah",
+      "lastName": "Akinyi",
+      "course": "Nursing",
+      "institution": "Moi University",
+      "year": 2,
+      "amountNeeded": 70000,
+      "amountRaised": 35000,
+      "story": "I'm studying Nursing and have been volunteering at local clinics. I want to specialize in maternal health and help reduce maternal mortality rates in rural areas.",
+      "fundingType": "medical",
+      "urgent": false,
+      "daysLeft": 60,
+      "documents": ["admission_letter.pdf", "volunteer_certificate.pdf"],
+      "progress": 50,
+      "email": "sarah.akinyi@example.com",
+      "phone": "+254700567890",
+      "impactStories": [
+        {
+          "date": "2024-01-12",
+          "title": "Clinical Rotation Success",
+          "description": "Sarah excelled in her clinical rotation at the local hospital, receiving praise from supervising nurses for her compassionate care."
+        }
+      ]
+    }
+  ],
+  "statistics": {
+    "totalStudents": 5,
+    "totalRaised": 250000,
+    "totalNeeded": 480000,
+    "successRate": 95,
+    "averageDonation": 5000,
+    "activeDonors": 150
+  },
+  "impactMetrics": {
+    "studentsGraduated": 45,
+    "studentsCurrentlySupported": 5,
+    "totalDonations": 2500000,
+    "averageCompletionTime": "3.2 years",
+    "communityImpact": "15 rural communities served"
+  }
+}
