@@ -306,10 +306,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📈 Impact Metrics
 
 ### Target Goals (Year 1)
-- **500+** students supported
-- **₵10M+** raised in donations
+- **50+** students supported
+- **Ksh 1M+** raised in donations
 - **90%+** student success rate
-- **1000+** active donors
+- **100+** active donors
 
 ### Success Stories
 *"LiftED helped me complete my medical degree. I'm now working as a doctor in a rural clinic, serving the community that supported me."* - Grace Mwangi, Medical Graduate

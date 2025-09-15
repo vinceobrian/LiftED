@@ -1,778 +1,505 @@
-// LiftED - Student Crowdfunding Platform JavaScript
+// Theme Management
+const themeToggle = document.querySelector('.theme-switch');
+const body = document.body;
 
-// Global variables
-let students = [];
-let currentStudent = null;
+// Check for saved theme preference or default to 'light'
+const currentTheme = localStorage.getItem('theme') || 'light';
+body.setAttribute('data-theme', currentTheme);
 
-// Sample student data
-const sampleStudents = [
+function toggleTheme() {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Add a subtle transition effect
+    body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+    setTimeout(() => {
+        body.style.transition = '';
+    }, 300);
+}
+
+// Mobile Navigation
+const hamburger = document.getElementById("hamburger");
+const navMenu = document.getElementById("navMenu");
+
+hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
+});
+
+// Close mobile menu when clicking on nav links
+document.querySelectorAll(".nav-link").forEach(link => {
+    link.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+    });
+});
+
+// Navbar scroll effect
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+
+// Enhanced Student Data
+const students = [
     {
-        id: 1,
-        firstName: "Grace",
-        lastName: "Mwangi",
-        course: "Medicine",
-        institution: "University of Nairobi",
-        year: 3,
-        amountNeeded: 150000,
-        amountRaised: 75000,
-        story: "I'm a third-year medical student with a passion for helping underserved communities. My family has been struggling financially, and I need support to complete my studies and become a doctor who can serve rural areas.",
-        fundingType: "tuition",
-        urgent: true,
-        daysLeft: 15,
-        documents: ["admission_letter.pdf", "fee_statement.pdf"],
-        progress: 50,
-        email: "grace.mwangi@example.com",
-        phone: "+254700123456"
-    },
-    {
-        id: 2,
-        firstName: "Peter",
-        lastName: "Ochieng",
+        name: "John Mwangi",
         course: "Computer Science",
-        institution: "Strathmore University",
-        year: 2,
-        amountNeeded: 80000,
-        amountRaised: 32000,
-        story: "I'm studying Computer Science and have been developing mobile apps to help small businesses. I need financial support to continue my education and eventually create tech solutions for African problems.",
-        fundingType: "tuition",
-        urgent: false,
-        daysLeft: 45,
-        documents: ["admission_letter.pdf"],
-        progress: 40,
-        email: "peter.ochieng@example.com",
-        phone: "+254700234567"
-    },
-    {
-        id: 3,
-        firstName: "Mary",
-        lastName: "Wanjiku",
-        course: "Engineering",
-        institution: "JKUAT",
-        year: 4,
-        amountNeeded: 120000,
-        amountRaised: 96000,
-        story: "I'm in my final year of Civil Engineering. I've maintained excellent grades and have been involved in community projects. I need support to complete my final year and graduate.",
-        fundingType: "tuition",
-        urgent: false,
-        daysLeft: 30,
-        documents: ["admission_letter.pdf", "transcript.pdf"],
-        progress: 80,
-        email: "mary.wanjiku@example.com",
-        phone: "+254700345678"
-    },
-    {
-        id: 4,
-        firstName: "David",
-        lastName: "Kimani",
-        course: "Business Administration",
-        institution: "Kenyatta University",
-        year: 1,
-        amountNeeded: 60000,
-        amountRaised: 12000,
-        story: "I'm a first-year business student with dreams of starting my own company. My family runs a small business, and I want to learn how to scale it and create employment opportunities.",
-        fundingType: "tuition",
+        university: "University of Nairobi",
+        year: "3rd Year",
+        amountNeeded: 75000,
+        amountRaised: 45000,
+        story: "John is a brilliant computer science student with a passion for software development. Despite maintaining a first-class average, he faces financial challenges that threaten his education. He comes from a single-parent household and has been working part-time to support his studies.",
+        category: "tuition",
         urgent: true,
-        daysLeft: 20,
-        documents: ["admission_letter.pdf"],
-        progress: 20,
-        email: "david.kimani@example.com",
-        phone: "+254700456789"
+        achievements: ["Dean's List 2024", "Best Programming Project Award", "Volunteer Tutor"]
     },
     {
-        id: 5,
-        firstName: "Sarah",
-        lastName: "Akinyi",
-        course: "Nursing",
-        institution: "Moi University",
-        year: 2,
-        amountNeeded: 70000,
-        amountRaised: 35000,
-        story: "I'm studying Nursing and have been volunteering at local clinics. I want to specialize in maternal health and help reduce maternal mortality rates in rural areas.",
-        fundingType: "medical",
+        name: "Mary Atieno",
+        course: "Medicine",
+        university: "Kenyatta University",
+        year: "4th Year",
+        amountNeeded: 120000,
+        amountRaised: 80000,
+        story: "Mary dreams of becoming a doctor to serve her rural community. She has consistently ranked in the top 5% of her class but struggles with the high cost of medical school. Her determination and academic excellence make her a promising future physician.",
+        category: "tuition",
         urgent: false,
-        daysLeft: 60,
-        documents: ["admission_letter.pdf", "volunteer_certificate.pdf"],
-        progress: 50,
-        email: "sarah.akinyi@example.com",
-        phone: "+254700567890"
+        achievements: ["Clinical Excellence Award", "Research Publication", "Community Health Volunteer"]
+    },
+    {
+        name: "David Ochieng",
+        course: "Mechanical Engineering",
+        university: "Jomo Kenyatta University",
+        year: "Final Year",
+        amountNeeded: 60000,
+        amountRaised: 25000,
+        story: "David is an innovative engineering student working on sustainable energy solutions. His final year project focuses on affordable solar technology for rural communities. He needs support to complete his thesis and graduate.",
+        category: "tuition",
+        urgent: true,
+        achievements: ["Innovation Challenge Winner", "Patent Application Filed", "Engineering Society President"]
+    },
+    {
+        name: "Grace Wanjiku",
+        course: "Nursing",
+        university: "Moi University",
+        year: "2nd Year",
+        amountNeeded: 45000,
+        amountRaised: 30000,
+        story: "Grace is passionate about maternal health and hopes to specialize in midwifery. She comes from a rural background and understands the healthcare challenges in underserved areas. Her compassion and dedication make her an exceptional nursing student.",
+        category: "medical",
+        urgent: false,
+        achievements: ["Clinical Skills Excellence", "Student Nurse Association Leader", "Health Outreach Volunteer"]
+    },
+    {
+        name: "Paul Kamau",
+        course: "Education (Mathematics)",
+        university: "Kenyatta University",
+        year: "3rd Year",
+        amountNeeded: 40000,
+        amountRaised: 15000,
+        story: "Paul is training to become a mathematics teacher with a special focus on making math accessible to students from disadvantaged backgrounds. He has already started a free tutoring program in his community and plans to expand it after graduation.",
+        category: "tuition",
+        urgent: true,
+        achievements: ["Outstanding Student Teacher", "Math Olympiad Coordinator", "Peer Tutor of the Year"]
+    },
+    {
+        name: "Susan Adhiambo",
+        course: "Business Administration",
+        university: "Strathmore University",
+        year: "Final Year",
+        amountNeeded: 85000,
+        amountRaised: 55000,
+        story: "Susan is an aspiring entrepreneur with a business plan to create employment opportunities in her rural community. She has already started a small agricultural cooperative and needs to complete her degree to scale her business impact.",
+        category: "tuition",
+        urgent: false,
+        achievements: ["Business Plan Competition Winner", "Entrepreneurship Club Founder", "Microfinance Intern"]
+    },
+    {
+        name: "Kevin Otieno",
+        course: "Information Technology",
+        university: "Technical University of Kenya",
+        year: "2nd Year",
+        amountNeeded: 55000,
+        amountRaised: 20000,
+        story: "Kevin is passionate about using technology to solve local problems. He has developed a mobile app for farmers and is working on digital literacy programs for his community. Despite his talent, financial constraints threaten his continued education.",
+        category: "tuition",
+        urgent: true,
+        achievements: ["Hackathon Winner", "Mobile App Developer", "Digital Literacy Trainer"]
+    },
+    {
+        name: "Faith Nyong'o",
+        course: "Environmental Science",
+        university: "University of Eldoret",
+        year: "3rd Year",
+        amountNeeded: 50000,
+        amountRaised: 35000,
+        story: "Faith is dedicated to environmental conservation and climate change mitigation. She leads campus sustainability initiatives and conducts research on renewable energy. Her work has already influenced policy recommendations at the county level.",
+        category: "tuition",
+        urgent: false,
+        achievements: ["Environmental Research Grant", "Sustainability Project Leader", "Climate Action Ambassador"]
     }
 ];
 
-// Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
+// Enhanced function to display student profiles with animations
+function displayStudentProfiles(filter = "all") {
+    const studentProfilesContainer = document.getElementById('studentsGrid');
+    
+    // Add loading state
+    studentProfilesContainer.innerHTML = '<div class="loading"><div class="spinner"></div><span>Loading students...</span></div>';
+    
+    setTimeout(() => {
+        studentProfilesContainer.innerHTML = '';
+        
+        const filteredStudents = filter === "all" 
+            ? students 
+            : students.filter(student => 
+                filter === "urgent" ? student.urgent : student.category === filter
+            );
+        
+        filteredStudents.forEach((student, index) => {
+            const progressPercentage = Math.min((student.amountRaised / student.amountNeeded) * 100, 100);
+            const remainingAmount = Math.max(student.amountNeeded - student.amountRaised, 0);
+            
+            const studentCard = document.createElement('div');
+            studentCard.classList.add('student-card');
+            studentCard.style.animationDelay = `${index * 0.1}s`;
+            
+            studentCard.innerHTML = `
+                <div class="student-image">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="student-info">
+                    <h3>${student.name}</h3>
+                    <p class="course"><strong>${student.course}</strong></p>
+                    <p class="university">${student.university} • ${student.year}</p>
+                    <p>${student.story}</p>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: ${progressPercentage}%"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>Raised: KSh ${student.amountRaised.toLocaleString()}</span>
+                            <span>${Math.round(progressPercentage)}%</span>
+                        </div>
+                        <div class="progress-text">
+                            <span style="color: var(--accent-coral); font-weight: 600;">
+                                Still needed: KSh ${remainingAmount.toLocaleString()}
+                            </span>
+                        </div>
+                    </div>
+                    ${student.achievements ? `
+                        <div style="margin-bottom: 1rem;">
+                            <small style="color: var(--text-secondary); font-weight: 500;">Recent Achievements:</small>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.25rem; margin-top: 0.5rem;">
+                                ${student.achievements.slice(0, 2).map(achievement => 
+                                    `<span style="background: var(--primary-blue-light); color: var(--primary-blue); padding: 0.25rem 0.5rem; border-radius: 1rem; font-size: 0.7rem; font-weight: 500;">${achievement}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    <button class="btn btn-primary" onclick="openDonationModal(${students.indexOf(student)})" style="width: 100%;">
+                        <i class="fas fa-heart"></i>
+                        Support ${student.name.split(' ')[0]}
+                    </button>
+                </div>
+            `;
+            
+            studentProfilesContainer.appendChild(studentCard);
+        });
+
+        // Re-trigger animations
+        observeElements();
+    }, 500);
+}
+
+// Enhanced Filter functionality with smooth transitions
+document.querySelectorAll('.filter-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        displayStudentProfiles(button.dataset.filter);
+    });
 });
 
-function initializeApp() {
-    // Load sample data
-    students = [...sampleStudents];
-    
-    // Initialize event listeners
-    setupEventListeners();
-    
-    // Load students
-    loadStudents();
-    
-    // Setup mobile navigation
-    setupMobileNavigation();
-    
-    // Setup form validation
-    setupFormValidation();
-    
-    console.log('LiftED application initialized successfully');
-}
-
-// Event Listeners Setup
-function setupEventListeners() {
-    // Filter buttons
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const filter = this.getAttribute('data-filter');
-            filterStudents(filter);
-            
-            // Update active button
-            filterButtons.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-    
-    // Student form submission
-    const studentForm = document.getElementById('studentForm');
-    if (studentForm) {
-        studentForm.addEventListener('submit', handleStudentFormSubmission);
-    }
-    
-    // Donation form submission
-    const donationForm = document.getElementById('donationForm');
-    if (donationForm) {
-        donationForm.addEventListener('submit', handleDonationFormSubmission);
-    }
-    
-    // Contact form submission
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', handleContactFormSubmission);
-    }
-    
-    // Quick amount buttons
-    const quickAmountButtons = document.querySelectorAll('.quick-amount');
-    quickAmountButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const amount = this.getAttribute('data-amount');
-            document.getElementById('donationAmount').value = amount;
-        });
-    });
-    
-    // Modal close on outside click
-    window.addEventListener('click', function(event) {
-        const modals = document.querySelectorAll('.modal');
-        modals.forEach(modal => {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-    });
-}
-
-// Mobile Navigation Setup
-function setupMobileNavigation() {
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-        });
-        
-        // Close menu when clicking on a link
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navMenu.classList.remove('active');
-            });
-        });
-    }
-}
-
-// Form Validation Setup
-function setupFormValidation() {
-    // Real-time validation for student form
-    const studentForm = document.getElementById('studentForm');
-    if (studentForm) {
-        const inputs = studentForm.querySelectorAll('input, select, textarea');
-        inputs.forEach(input => {
-            input.addEventListener('blur', function() {
-                validateField(this);
-            });
-            
-            input.addEventListener('input', function() {
-                clearFieldError(this);
-            });
-        });
-    }
-    
-    // Real-time validation for donation form
-    const donationForm = document.getElementById('donationForm');
-    if (donationForm) {
-        const inputs = donationForm.querySelectorAll('input, select, textarea');
-        inputs.forEach(input => {
-            input.addEventListener('blur', function() {
-                validateField(this);
-            });
-        });
-    }
-}
-
-// Student Management Functions
-function loadStudents(filter = 'all') {
-    const studentsGrid = document.getElementById('studentsGrid');
-    if (!studentsGrid) return;
-    
-    let filteredStudents = students;
-    
-    if (filter !== 'all') {
-        filteredStudents = students.filter(student => {
-            if (filter === 'urgent') return student.urgent;
-            if (filter === 'medical') return student.fundingType === 'medical';
-            if (filter === 'tuition') return student.fundingType === 'tuition';
-            return true;
-        });
-    }
-    
-    studentsGrid.innerHTML = '';
-    
-    if (filteredStudents.length === 0) {
-        studentsGrid.innerHTML = `
-            <div class="no-students">
-                <i class="fas fa-graduation-cap"></i>
-                <h3>No students found</h3>
-                <p>Try adjusting your filters or check back later for new applications.</p>
-            </div>
-        `;
-        return;
-    }
-    
-    filteredStudents.forEach(student => {
-        const studentCard = createStudentCard(student);
-        studentsGrid.appendChild(studentCard);
-    });
-}
-
-function createStudentCard(student) {
-    const card = document.createElement('div');
-    card.className = 'student-card';
-    
-    const progressPercentage = Math.round((student.amountRaised / student.amountNeeded) * 100);
-    const urgentBadge = student.urgent ? '<div class="urgent-badge">URGENT</div>' : '';
-    
-    card.innerHTML = `
-        <div class="student-header">
-            ${urgentBadge}
-            <div class="student-avatar">
-                ${student.firstName.charAt(0)}${student.lastName.charAt(0)}
-            </div>
-            <div class="student-name">${student.firstName} ${student.lastName}</div>
-            <div class="student-course">${student.course} - ${student.institution}</div>
-        </div>
-        <div class="student-body">
-            <div class="student-story">
-                ${student.story}
-            </div>
-            <div class="progress-section">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: ${progressPercentage}%"></div>
-                </div>
-                <div class="progress-info">
-                    <span class="amount-raised">KShs ${student.amountRaised.toLocaleString()}</span>
-                    <span class="amount-needed">KShs ${student.amountNeeded.toLocaleString()}</span>
-                </div>
-            </div>
-        </div>
-        <div class="student-footer">
-            <div class="days-left">
-                <i class="fas fa-clock"></i>
-                ${student.daysLeft} days left
-            </div>
-            <button class="donate-btn" onclick="openDonationModal(${student.id})">
-                <i class="fas fa-heart"></i>
-                Donate Now
-            </button>
-        </div>
-    `;
-    
-    return card;
-}
-
-function filterStudents(filter) {
-    loadStudents(filter);
-}
-
-// Modal Functions
+// Modal functions with enhanced UX
 function openStudentForm() {
     const modal = document.getElementById('studentModal');
-    if (modal) {
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-    }
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+    setTimeout(() => modal.classList.add('show'), 10);
+    document.body.style.overflow = 'hidden';
+    
+    // Focus management
+    modal.querySelector('#firstName').focus();
 }
 
 function closeStudentForm() {
     const modal = document.getElementById('studentModal');
-    if (modal) {
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    setTimeout(() => {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
-        resetStudentForm();
-    }
+    }, 300);
 }
 
-function openDonationModal(studentId) {
-    const student = students.find(s => s.id === studentId);
-    if (!student) return;
+function openDonationModal(studentIndex) {
+    const student = students[studentIndex];
+    const progressPercentage = Math.min((student.amountRaised / student.amountNeeded) * 100, 100);
+    const remainingAmount = Math.max(student.amountNeeded - student.amountRaised, 0);
     
-    currentStudent = student;
+    document.getElementById('donationStudentInfo').innerHTML = `
+        <div class="student-card" style="margin-bottom: 2rem; animation: none;">
+            <div class="student-image">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="student-info">
+                <h3>${student.name}</h3>
+                <p class="course"><strong>${student.course}</strong></p>
+                <p class="university">${student.university} • ${student.year}</p>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: ${progressPercentage}%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>Raised: KSh ${student.amountRaised.toLocaleString()}</span>
+                        <span>${Math.round(progressPercentage)}%</span>
+                    </div>
+                </div>
+                <p style="margin-bottom: 0; font-weight: 600; color: var(--accent-coral);">
+                    Still needed: KSh ${remainingAmount.toLocaleString()}
+                </p>
+            </div>
+        </div>
+    `;
+    
     const modal = document.getElementById('donationModal');
-    const studentInfo = document.getElementById('donationStudentInfo');
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+    setTimeout(() => modal.classList.add('show'), 10);
+    document.body.style.overflow = 'hidden';
     
-    if (modal && studentInfo) {
-        studentInfo.innerHTML = `
-            <h3>${student.firstName} ${student.lastName}</h3>
-            <p><strong>Course:</strong> ${student.course} - ${student.institution}</p>
-            <p><strong>Amount Needed:</strong> KShs ${student.amountNeeded.toLocaleString()}</p>
-            <p><strong>Amount Raised:</strong> KShs ${student.amountRaised.toLocaleString()}</p>
-            <p><strong>Progress:</strong> ${Math.round((student.amountRaised / student.amountNeeded) * 100)}%</p>
-        `;
-        
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-    }
+    // Focus management
+    modal.querySelector('#donorName').focus();
 }
 
 function closeDonationModal() {
     const modal = document.getElementById('donationModal');
-    if (modal) {
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    setTimeout(() => {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
-        resetDonationForm();
-        currentStudent = null;
-    }
-}
-
-function openSuccessModal(message) {
-    const modal = document.getElementById('successModal');
-    const messageElement = document.getElementById('successMessage');
-    
-    if (modal && messageElement) {
-        messageElement.textContent = message;
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-    }
+    }, 300);
 }
 
 function closeSuccessModal() {
     const modal = document.getElementById('successModal');
-    if (modal) {
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    setTimeout(() => {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
-    }
+    }, 300);
 }
 
-// Form Handling Functions
-function handleStudentFormSubmission(event) {
-    event.preventDefault();
-    
-    const form = event.target;
-    const formData = new FormData(form);
-    
-    // Validate form
-    if (!validateStudentForm(form)) {
-        return;
+// Enhanced Quick amount buttons functionality
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('quick-amount')) {
+        document.querySelectorAll('.quick-amount').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+        document.getElementById('donationAmount').value = e.target.dataset.amount;
     }
+});
+
+// Enhanced Form submissions with loading states
+document.getElementById('studentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
     
-    // Show loading state
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.innerHTML = '<span class="loading"></span> Submitting...';
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<div class="loading"><div class="spinner"></div><span>Submitting...</span></div>';
     submitBtn.disabled = true;
     
-    // Simulate form submission
+    // Simulate API call
     setTimeout(() => {
-        // Create new student object
-        const newStudent = {
-            id: students.length + 1,
-            firstName: formData.get('firstName') || document.getElementById('firstName').value,
-            lastName: formData.get('lastName') || document.getElementById('lastName').value,
-            course: document.getElementById('course').value,
-            institution: document.getElementById('institution').value,
-            year: parseInt(document.getElementById('year').value),
-            amountNeeded: parseInt(document.getElementById('amountNeeded').value),
-            amountRaised: 0,
-            story: document.getElementById('story').value,
-            fundingType: document.getElementById('fundingType').value,
-            urgent: false,
-            daysLeft: 30,
-            documents: [],
-            progress: 0,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value
-        };
-        
-        // Add to students array
-        students.unshift(newStudent);
-        
-        // Reset form and close modal
-        resetStudentForm();
         closeStudentForm();
+        showSuccessModal('Your application has been submitted successfully! Our team will review it within 2-3 business days and contact you with next steps.');
         
-        // Reload students
-        loadStudents();
-        
-        // Show success message
-        openSuccessModal('Your application has been submitted successfully! We will review it and get back to you within 48 hours.');
-        
-        // Reset button
-        submitBtn.textContent = originalText;
+        // Reset form and button
+        this.reset();
+        submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-        
-        console.log('New student application submitted:', newStudent);
     }, 2000);
-}
+});
 
-function handleDonationFormSubmission(event) {
-    event.preventDefault();
+document.getElementById('donationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
     
-    const form = event.target;
-    
-    // Validate form
-    if (!validateDonationForm(form)) {
-        return;
-    }
-    
-    // Show loading state
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.innerHTML = '<span class="loading"></span> Processing...';
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<div class="loading"><div class="spinner"></div><span>Processing...</span></div>';
     submitBtn.disabled = true;
     
-    // Simulate donation processing
+    // Simulate payment processing
     setTimeout(() => {
-        const amount = parseInt(document.getElementById('donationAmount').value);
-        const donorName = document.getElementById('donorName').value;
-        const donorEmail = document.getElementById('donorEmail').value;
-        const message = document.getElementById('donorMessage').value;
-        const anonymous = document.getElementById('anonymous').checked;
-        
-        // Update student's raised amount
-        if (currentStudent) {
-            currentStudent.amountRaised += amount;
-            currentStudent.progress = Math.round((currentStudent.amountRaised / currentStudent.amountNeeded) * 100);
-            
-            // Update the student in the array
-            const studentIndex = students.findIndex(s => s.id === currentStudent.id);
-            if (studentIndex !== -1) {
-                students[studentIndex] = currentStudent;
-            }
-        }
-        
-        // Reset form and close modal
-        resetDonationForm();
         closeDonationModal();
+        showSuccessModal('Thank you for your generous donation! You will receive a confirmation email shortly with payment details and tax receipt information.');
         
-        // Reload students to show updated progress
-        loadStudents();
-        
-        // Show success message
-        const displayName = anonymous ? 'Anonymous Donor' : donorName;
-        openSuccessModal(`Thank you ${displayName}! Your donation of KShs${amount.toLocaleString()} has been processed successfully.`);
-        
-        // Reset button
-        submitBtn.textContent = originalText;
+        // Reset form and button
+        this.reset();
+        submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-        
-        console.log('Donation processed:', {
-            amount,
-            donorName,
-            donorEmail,
-            message,
-            anonymous,
-            studentId: currentStudent?.id
-        });
-    }, 2000);
-}
+    }, 2500);
+});
 
-function handleContactFormSubmission(event) {
-    event.preventDefault();
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
     
-    const form = event.target;
-    const formData = new FormData(form);
-    
-    // Show loading state
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.innerHTML = '<span class="loading"></span> Sending...';
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<div class="loading"><div class="spinner"></div><span>Sending...</span></div>';
     submitBtn.disabled = true;
     
-    // Simulate form submission
+    // Simulate email sending
     setTimeout(() => {
-        // Reset form
-        form.reset();
+        showSuccessModal('Your message has been sent successfully! We will get back to you within 24 hours.');
         
-        // Reset button
-        submitBtn.textContent = originalText;
+        // Reset form and button
+        this.reset();
+        submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-        
-        // Show success message
-        openSuccessModal('Thank you for your message! We will get back to you within 24 hours.');
-        
-        console.log('Contact form submitted:', {
-            name: formData.get('contactName') || document.getElementById('contactName').value,
-            email: formData.get('contactEmail') || document.getElementById('contactEmail').value,
-            message: formData.get('contactMessage') || document.getElementById('contactMessage').value
-        });
     }, 1500);
-}
+});
 
-// Form Validation Functions
-function validateStudentForm(form) {
-    const requiredFields = [
-        'firstName', 'lastName', 'email', 'phone', 'institution', 
-        'course', 'year', 'amountNeeded', 'fundingType', 'story'
-    ];
+// Newsletter form submission
+document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+    e.preventDefault();
     
-    let isValid = true;
+    const emailInput = this.querySelector('input[type="email"]');
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
     
-    requiredFields.forEach(fieldName => {
-        const field = document.getElementById(fieldName);
-        if (field && !validateField(field)) {
-            isValid = false;
-        }
-    });
+    submitBtn.innerHTML = '<div class="loading"><div class="spinner"></div><span>Subscribing...</span></div>';
+    submitBtn.disabled = true;
     
-    // Validate terms checkbox
-    const termsCheckbox = document.getElementById('terms');
-    if (termsCheckbox && !termsCheckbox.checked) {
-        showFieldError(termsCheckbox, 'You must agree to the terms and conditions');
-        isValid = false;
-    }
-    
-    return isValid;
-}
-
-function validateDonationForm(form) {
-    const requiredFields = ['donorName', 'donorEmail', 'donationAmount', 'paymentMethod'];
-    
-    let isValid = true;
-    
-    requiredFields.forEach(fieldName => {
-        const field = document.getElementById(fieldName);
-        if (field && !validateField(field)) {
-            isValid = false;
-        }
-    });
-    
-    // Validate donation amount
-    const amountField = document.getElementById('donationAmount');
-    if (amountField) {
-        const amount = parseInt(amountField.value);
-        if (amount < 100) {
-            showFieldError(amountField, 'Minimum donation amount is KShs 100');
-            isValid = false;
-        }
-    }
-    
-    return isValid;
-}
-
-function validateField(field) {
-    const value = field.value.trim();
-    const fieldType = field.type;
-    const fieldName = field.name || field.id;
-    
-    // Clear previous errors
-    clearFieldError(field);
-    
-    // Required field validation
-    if (field.hasAttribute('required') && !value) {
-        showFieldError(field, 'This field is required');
-        return false;
-    }
-    
-    // Email validation
-    if (fieldType === 'email' && value) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) {
-            showFieldError(field, 'Please enter a valid email address');
-            return false;
-        }
-    }
-    
-    // Phone validation
-    if (fieldName === 'phone' && value) {
-        const phoneRegex = /^(\+254|0)[0-9]{9}$/;
-        if (!phoneRegex.test(value)) {
-            showFieldError(field, 'Please enter a valid Kenyan phone number');
-            return false;
-        }
-    }
-    
-    // Number validation
-    if (fieldType === 'number' && value) {
-        const num = parseInt(value);
-        if (isNaN(num) || num < 0) {
-            showFieldError(field, 'Please enter a valid positive number');
-            return false;
-        }
-    }
-    
-    return true;
-}
-
-function showFieldError(field, message) {
-    field.style.borderColor = 'var(--coral)';
-    
-    // Remove existing error message
-    const existingError = field.parentNode.querySelector('.field-error');
-    if (existingError) {
-        existingError.remove();
-    }
-    
-    // Add error message
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'field-error';
-    errorDiv.style.color = 'var(--coral)';
-    errorDiv.style.fontSize = 'var(--font-size-sm)';
-    errorDiv.style.marginTop = 'var(--spacing-1)';
-    errorDiv.textContent = message;
-    
-    field.parentNode.appendChild(errorDiv);
-}
-
-function clearFieldError(field) {
-    field.style.borderColor = 'var(--border-gray)';
-    
-    const existingError = field.parentNode.querySelector('.field-error');
-    if (existingError) {
-        existingError.remove();
-    }
-}
-
-// Form Reset Functions
-function resetStudentForm() {
-    const form = document.getElementById('studentForm');
-    if (form) {
-        form.reset();
+    // Simulate subscription process
+    setTimeout(() => {
+        showSuccessModal('Thank you for subscribing to our newsletter! You will receive updates about our students and success stories.');
         
-        // Clear all field errors
-        const fields = form.querySelectorAll('input, select, textarea');
-        fields.forEach(field => clearFieldError(field));
-    }
+        // Reset form and button
+        this.reset();
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }, 1500);
+});
+
+function showSuccessModal(message) {
+    const modal = document.getElementById('successModal');
+    document.getElementById('successMessage').textContent = message;
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+    setTimeout(() => modal.classList.add('show'), 10);
+    document.body.style.overflow = 'hidden';
 }
 
-function resetDonationForm() {
-    const form = document.getElementById('donationForm');
-    if (form) {
-        form.reset();
-        
-        // Clear all field errors
-        const fields = form.querySelectorAll('input, select, textarea');
-        fields.forEach(field => clearFieldError(field));
-    }
-}
-
-// Utility Functions
+// Smooth scroll to students section
 function scrollToStudents() {
-    const studentsSection = document.getElementById('students');
-    if (studentsSection) {
-        studentsSection.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('students').scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+// Intersection Observer for animations
+function observeElements() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    // Observe elements with animation classes
+    document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+        observer.observe(el);
+    });
+}
+
+// Enhanced accessibility features
+document.addEventListener('keydown', function(e) {
+    // Close modal with Escape key
+    if (e.key === 'Escape') {
+        const openModals = document.querySelectorAll('.modal.show');
+        openModals.forEach(modal => {
+            if (modal.id === 'studentModal') closeStudentForm();
+            else if (modal.id === 'donationModal') closeDonationModal();
+            else if (modal.id === 'successModal') closeSuccessModal();
+        });
     }
-}
+});
 
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('en-KE', {
-        style: 'currency',
-        currency: 'KES',
-        minimumFractionDigits: 0
-    }).format(amount);
-}
+// Close modals when clicking outside
+window.addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal')) {
+        if (e.target.id === 'studentModal') closeStudentForm();
+        else if (e.target.id === 'donationModal') closeDonationModal();
+        else if (e.target.id === 'successModal') closeSuccessModal();
+    }
+});
 
-function formatDate(date) {
-    return new Intl.DateTimeFormat('en-KE', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    }).format(date);
-}
-
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+// Initialize page
+document.addEventListener('DOMContentLoaded', () => {
+    displayStudentProfiles();
+    observeElements();
+    
+    // Add loading animation to hero stats
+    const stats = document.querySelectorAll('.stat h3');
+    stats.forEach((stat, index) => {
+        const finalValue = parseInt(stat.textContent.replace(/\D/g, ''));
+        const suffix = stat.textContent.replace(/[\d,]/g, '');
+        let currentValue = 0;
+        const increment = finalValue / 50;
+        
+        const counter = setInterval(() => {
+            currentValue += increment;
+            if (currentValue >= finalValue) {
+                stat.textContent = finalValue.toLocaleString() + suffix;
+                clearInterval(counter);
+            } else {
+                stat.textContent = Math.floor(currentValue).toLocaleString() + suffix;
+            }
+        }, 50);
     });
 });
 
-// Add loading animation to buttons
-function addLoadingAnimation(button, text = 'Loading...') {
-    const originalText = button.textContent;
-    button.innerHTML = `<span class="loading"></span> ${text}`;
-    button.disabled = true;
-    
-    return function removeLoading() {
-        button.textContent = originalText;
-        button.disabled = false;
-    };
-}
+// Performance optimization: Lazy loading for images
+if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                observer.unobserve(img);
+            }
+        });
+    });
 
-// Local storage functions for persistence
-function saveToLocalStorage(key, data) {
-    try {
-        localStorage.setItem(key, JSON.stringify(data));
-    } catch (error) {
-        console.error('Error saving to localStorage:', error);
-    }
-}
-
-function loadFromLocalStorage(key) {
-    try {
-        const data = localStorage.getItem(key);
-        return data ? JSON.parse(data) : null;
-    } catch (error) {
-        console.error('Error loading from localStorage:', error);
-        return null;
-    }
-}
-
-// Initialize with saved data if available
-function loadSavedData() {
-    const savedStudents = loadFromLocalStorage('lifted_students');
-    if (savedStudents && savedStudents.length > 0) {
-        students = savedStudents;
-    }
-}
-
-// Save data periodically
-function saveData() {
-    saveToLocalStorage('lifted_students', students);
-}
-
-// Auto-save every 30 seconds
-setInterval(saveData, 30000);
-
-// Load saved data on initialization
-loadSavedData();
-
-// Export functions for testing (if needed)
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        validateField,
-        formatCurrency,
-        formatDate,
-        createStudentCard
-    };
+    document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+    });
 }
