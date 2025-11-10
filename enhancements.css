@@ -1,0 +1,467 @@
+/* Additional UI/UX Enhancements for LiftED Platform */
+
+/* Smooth Page Transitions */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enhanced Focus States for Accessibility */
+*:focus-visible {
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+}
+
+/* Custom Selection Color */
+::selection {
+    background: var(--primary-blue);
+    color: white;
+}
+
+::-moz-selection {
+    background: var(--primary-blue);
+    color: white;
+}
+
+/* Smooth Hover Transitions for Links */
+a {
+    transition: var(--transition);
+}
+
+/* Enhanced Card Shadows on Hover */
+.student-card,
+.contact-form,
+.modal-content {
+    will-change: transform, box-shadow;
+}
+
+/* Tooltip Styles */
+[data-tooltip] {
+    position: relative;
+    cursor: help;
+}
+
+[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+}
+
+[data-tooltip]:hover::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-12px);
+}
+
+/* Progress Bar Gradient Animation */
+.progress {
+    background: linear-gradient(90deg, 
+        var(--accent-green), 
+        #059669,
+        var(--primary-blue),
+        var(--accent-green)
+    );
+    background-size: 200% 100%;
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Enhanced Modal Backdrop */
+.modal {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Smooth Image Loading */
+img {
+    transition: opacity 0.3s ease;
+}
+
+img.lazy {
+    opacity: 0;
+}
+
+img.loaded {
+    opacity: 1;
+}
+
+/* Enhanced Button Press Effect */
+.btn:active,
+.filter-btn:active {
+    transform: scale(0.97) !important;
+}
+
+/* Form Input Validation States */
+input:valid:not(:placeholder-shown),
+textarea:valid:not(:placeholder-shown),
+select:valid {
+    border-color: var(--accent-green);
+}
+
+input:invalid:not(:placeholder-shown):not(:focus),
+textarea:invalid:not(:placeholder-shown):not(:focus) {
+    border-color: var(--accent-coral);
+}
+
+/* Success Checkmark Animation */
+.success-icon i {
+    animation: successPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes successPop {
+    0% {
+        transform: scale(0) rotate(-45deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1) rotate(5deg);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* Skeleton Loading Animation */
+@keyframes skeletonLoading {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--bg-secondary) 0%,
+        var(--bg-tertiary) 20%,
+        var(--bg-secondary) 40%,
+        var(--bg-secondary) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeletonLoading 1.5s ease-in-out infinite;
+}
+
+/* Enhanced Navbar Scroll Shadow */
+.navbar.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Social Links Hover Effects */
+.social-links a {
+    position: relative;
+    overflow: hidden;
+}
+
+.social-links a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.social-links a:hover::before {
+    left: 100%;
+}
+
+/* Mission Point Hover Effect */
+.mission-point {
+    cursor: pointer;
+}
+
+.mission-point:hover .icon {
+    transform: rotate(360deg) scale(1.1);
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Newsletter Input Focus Effect */
+.newsletter-form input:focus {
+    transform: translateX(5px);
+}
+
+/* Donate Button Pulse Animation for Urgent Cards */
+.student-card .urgent-badge ~ * .btn-primary {
+    animation: subtlePulse 2s ease-in-out infinite;
+}
+
+@keyframes subtlePulse {
+    0%, 100% {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+    }
+}
+
+/* Enhanced Checkbox Styling */
+input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    position: relative;
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+input[type="checkbox"]:hover {
+    border-color: var(--primary-blue);
+}
+
+input[type="checkbox"]:checked {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+
+input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Contact Item Hover Effect */
+.contact-item {
+    cursor: default;
+}
+
+.contact-item .icon {
+    transition: var(--transition);
+}
+
+.contact-item:hover .icon {
+    transform: scale(1.1) rotate(5deg);
+    background: var(--primary-blue);
+    color: white;
+}
+
+/* Filter Button Active State Animation */
+.filter-btn.active {
+    animation: filterActivate 0.3s ease;
+}
+
+@keyframes filterActivate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Stat Counter Hover Effect */
+.stat {
+    cursor: pointer;
+}
+
+.stat:hover h3 {
+    transform: scale(1.1);
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Quick Amount Button Active State */
+.quick-amount.active {
+    animation: quickAmountSelect 0.3s ease;
+}
+
+@keyframes quickAmountSelect {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Enhanced Modal Close Button */
+.close {
+    position: relative;
+}
+
+.close::before,
+.close::after {
+    transition: var(--transition);
+}
+
+.close:hover {
+    transform: rotate(90deg);
+}
+
+/* Progress Text Animation */
+.progress-text {
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+/* Achievement Badge Hover */
+[style*="background: var(--primary-blue-light)"] {
+    transition: var(--transition);
+}
+
+/* Footer Newsletter Success State */
+.newsletter-form.success {
+    animation: formSuccess 0.6s ease;
+}
+
+@keyframes formSuccess {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+/* Improved Text Readability */
+p, li, span {
+    text-rendering: optimizeLegibility;
+}
+
+/* Enhanced Link Hover States */
+.footer-section ul li a {
+    position: relative;
+    display: inline-block;
+}
+
+.footer-section ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-blue);
+    transition: width 0.3s ease;
+}
+
+.footer-section ul li a:hover::after {
+    width: 100%;
+}
+
+/* Smooth Theme Transition */
+[data-theme] {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Loading Spinner Enhancement */
+.spinner {
+    position: relative;
+}
+
+.spinner::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border: 3px solid transparent;
+    border-top-color: var(--accent-gold);
+    border-radius: 50%;
+    animation: spin 1.2s linear infinite;
+    animation-delay: -0.4s;
+}
+
+/* Enhanced Card Entry Animation */
+.student-card {
+    opacity: 0;
+    animation: cardEntrance 0.6s ease-out forwards;
+}
+
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsive Enhancement for Touch Devices */
+@media (hover: none) and (pointer: coarse) {
+    .btn,
+    .filter-btn,
+    .nav-link {
+        transform: none !important;
+    }
+    
+    .student-card:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Print Optimization */
+@media print {
+    .student-card {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .btn,
+    .filter-btn {
+        display: none;
+    }
+}
+
+/* High Performance Mode */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* Enhanced Contrast for Dark Mode */
+[data-theme="dark"] .student-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .student-card:hover {
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Optimized Performance Hint */
+.student-image,
+.image-placeholder,
+.btn,
+.filter-btn,
+.modal-content {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
+

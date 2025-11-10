@@ -172,6 +172,7 @@ function displayStudentProfiles(filter = "all") {
             studentCard.style.animationDelay = `${index * 0.1}s`;
             
             studentCard.innerHTML = `
+                ${student.urgent ? '<div class="urgent-badge"><i class="fas fa-exclamation-circle"></i> Urgent</div>' : ''}
                 <div class="student-image">
                     <i class="fas fa-user-graduate"></i>
                 </div>
@@ -310,12 +311,20 @@ function closeSuccessModal() {
     }, 300);
 }
 
-// Enhanced Quick amount buttons functionality
+// Enhanced Quick amount buttons functionality with smooth transitions
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('quick-amount')) {
         document.querySelectorAll('.quick-amount').forEach(btn => btn.classList.remove('active'));
         e.target.classList.add('active');
-        document.getElementById('donationAmount').value = e.target.dataset.amount;
+        
+        const amountInput = document.getElementById('donationAmount');
+        amountInput.value = e.target.dataset.amount;
+        
+        // Add visual feedback
+        amountInput.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+            amountInput.style.transform = 'scale(1)';
+        }, 200);
     }
 });
 
@@ -335,6 +344,8 @@ document.getElementById('studentForm').addEventListener('submit', function(e) {
         
         // Reset form and button
         this.reset();
+        // Remove active state from quick-amount buttons (if any)
+        this.querySelectorAll('.quick-amount').forEach(btn => btn.classList.remove('active'));
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
     }, 2000);
@@ -386,8 +397,18 @@ document.getElementById('newsletterForm').addEventListener('submit', function(e)
     const emailInput = this.querySelector('input[type="email"]');
     const submitBtn = this.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
-    
-    submitBtn.innerHTML = '<div class="loading"><div class="spinner"></div><span>Subscribing...</span></div>';
+
+    if (!emailInput) {
+        showSuccessModal('Email input not found. Please try again later.');
+        return;
+    }
+    if (!emailInput.value.trim()) {
+        showSuccessModal('Please enter a valid email address.');
+        return;
+    }
+    submitBtn.classList.add('loading');
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.textContent = 'Subscribing...';
     submitBtn.disabled = true;
     
     // Simulate subscription process
@@ -396,7 +417,8 @@ document.getElementById('newsletterForm').addEventListener('submit', function(e)
         
         // Reset form and button
         this.reset();
-        submitBtn.innerHTML = originalText;
+        submitBtn.classList.remove('loading');
+        submitBtn.textContent = originalBtnText;
         submitBtn.disabled = false;
     }, 1500);
 });
@@ -503,3 +525,74 @@ if ('IntersectionObserver' in window) {
         imageObserver.observe(img);
     });
 }
+
+// Add smooth transitions to form inputs
+document.querySelectorAll('input, textarea, select').forEach(input => {
+    input.style.transition = 'all 0.3s ease';
+    
+    input.addEventListener('focus', function() {
+        this.style.transform = 'translateY(-2px)';
+        this.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.15)';
+    });
+    
+    input.addEventListener('blur', function() {
+        this.style.transform = 'translateY(0)';
+    });
+});
+
+// Enhanced donation amount input with validation
+const donationAmountInput = document.getElementById('donationAmount');
+if (donationAmountInput) {
+    donationAmountInput.addEventListener('input', function() {
+        const value = parseInt(this.value);
+        if (value < 100 && value > 0) {
+            this.style.borderColor = 'var(--accent-coral)';
+            this.setCustomValidity('Minimum donation is KSh 100');
+        } else {
+            this.style.borderColor = '';
+            this.setCustomValidity('');
+        }
+    });
+}
+
+// Add ripple effect to buttons
+document.querySelectorAll('.btn, .filter-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s ease-out;
+            pointer-events: none;
+        `;
+        
+        this.style.position = 'relative';
+        this.style.overflow = 'hidden';
+        this.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+    });
+});
+
+// Add CSS animation for ripple effect
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
