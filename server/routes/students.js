@@ -4,6 +4,16 @@ const { body } = require('express-validator');
 const studentController = require('../controllers/studentController');
 const { protect, authorize, checkVerified } = require('../middleware/auth');
 
+// @route   GET /api/students/search/:query
+// @desc    Search students
+// @access  Public
+router.get('/search/:query', studentController.searchStudents);
+
+// @route   GET /api/students/filter/:category
+// @desc    Filter students by category
+// @access  Public
+router.get('/filter/:category', studentController.filterStudents);
+
 // @route   GET /api/students
 // @desc    Get all approved students
 // @access  Public
@@ -16,14 +26,19 @@ router.get('/:id', studentController.getStudent);
 
 // @route   POST /api/students
 // @desc    Create student profile/application
-// @access  Private (Students only)
-router.post('/', protect, authorize('student', 'admin'), [
+// @access  Public
+router.post('/', [
     body('institution').trim().notEmpty().withMessage('Institution is required'),
     body('course').trim().notEmpty().withMessage('Course is required'),
-    body('yearOfStudy').isInt({ min: 1, max: 10 }).withMessage('Valid year of study is required'),
+    body('yearOfStudy').optional().isInt({ min: 1, max: 10 }).withMessage('Valid year of study is required'),
+    body('year').optional().isInt({ min: 1, max: 10 }).withMessage('Valid year is required'),
     body('amountNeeded').isInt({ min: 1000 }).withMessage('Amount needed must be at least KSh 1,000'),
-    body('fundingType').isIn(['tuition', 'exam', 'books', 'accommodation', 'medical', 'research', 'other']),
-    body('story').isLength({ min: 100, max: 2000 }).withMessage('Story must be between 100 and 2000 characters')
+    body('fundingType').optional().isIn(['tuition', 'exam', 'books', 'accommodation', 'medical', 'research', 'other']),
+    body('story').isLength({ min: 100, max: 2000 }).withMessage('Story must be between 100 and 2000 characters'),
+    body('firstName').trim().notEmpty().withMessage('First name is required'),
+    body('lastName').trim().notEmpty().withMessage('Last name is required'),
+    body('email').isEmail().withMessage('Valid email is required'),
+    body('phone').notEmpty().withMessage('Phone is required')
 ], studentController.createStudent);
 
 // @route   PUT /api/students/:id

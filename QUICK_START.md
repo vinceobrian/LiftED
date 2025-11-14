@@ -1,6 +1,6 @@
-# 🚀 LiftED - Quick Start Guide
+# ⚡ Quick Command Reference
 
-Get the LiftED platform up and running in **less than 5 minutes**!
+## 🚀 Start Everything (Fastest Way)
 
 ---
 

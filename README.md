@@ -66,12 +66,9 @@ LiftED provides a web platform that allows:
 
 ## 🚀 Quick Start
 
-### Prerequisites
-- Node.js (v14 or higher)
-- npm or yarn package manager
-- Modern web browser
+### Frontend Only (Quick Demo)
 
-### Installation
+To run the frontend locally without a backend:
 
 1. **Clone or download the project**
    ```bash
@@ -82,12 +79,63 @@ LiftED provides a web platform that allows:
    # Or simply download and extract the ZIP file
    ```
 
-2. **Install dependencies**
+2. **Serve the frontend**
+   ```bash
+   # Using npx http-server (recommended)
+   npx http-server -p 3000
+   
+   # Or using Node.js dev script
+   npm run dev
+   
+   # Or open index.html directly in your browser
+   ```
+
+3. **Open your browser**
+   - Navigate to `http://localhost:3000/index.html`
+
+### Full Setup (Frontend + Backend + Authentication)
+
+For complete setup with backend, database, and authentication:
+
+**See the detailed guide**: [SETUP_GUIDE.md](SETUP_GUIDE.md)
+
+This includes:
+- ✅ Backend server configuration
+- ✅ Environment variable setup
+- ✅ MongoDB connection
+- ✅ JWT authentication
+- ✅ Frontend-backend integration
+- ✅ Testing procedures
+- ✅ Troubleshooting tips
+
+### Troubleshooting & Common Issues
+
+If you encounter any errors or issues:
+
+**See**: [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Common issues and debugging guide
+
+**For technical details on fixes applied**: [ERRORS_FIXED.md](ERRORS_FIXED.md)
+
+### Additional Documentation
+
+- **[INTEGRATION_SUMMARY.md](INTEGRATION_SUMMARY.md)** - Architecture, API flows, and integration details
+- **[COMPLETION_REPORT.md](COMPLETION_REPORT.md)** - Final status and accomplishments  
+- **[QUICK_START.md](QUICK_START.md)** - Quick reference commands
+- **[SETUP_GUIDE.md](SETUP_GUIDE.md)** - Detailed setup instructions
+
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn package manager
+- Modern web browser
+
+### Installation (Frontend Only)
+
+1. **Install dependencies**
    ```bash
    npm install
    ```
 
-3. **Start the development server**
+2. **Start the development server**
    ```bash
    npm start
    ```
@@ -97,7 +145,7 @@ LiftED provides a web platform that allows:
    npm run dev
    ```
 
-4. **Open your browser**
+3. **Open your browser**
    - Navigate to `http://localhost:3000`
    - The application will open automatically
 

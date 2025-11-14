@@ -28,7 +28,7 @@
                 <li>
                     <div class="theme-toggle">
                         <i class="fas fa-sun" id="lightIcon"></i>
-                        <button class="theme-switch" onclick="toggleTheme()" aria-label="Toggle dark mode"></button>
+                        <button class="theme-switch" aria-label="Toggle dark mode" onclick="toggleTheme()"></button>
                         <i class="fas fa-moon" id="darkIcon"></i>
                     </div>
                 </li>
@@ -66,15 +66,15 @@
                 </div>
                 <div class="hero-stats">
                     <div class="stat fade-in">
-                        <h3>10+</h3>
+                        <h3 id="students-supported" data-suffix="+">0+</h3>
                         <p>Students Supported</p>
                     </div>
                     <div class="stat fade-in">
-                        <h3>15,000+</h3>
+                        <h3 id="total-raised" data-suffix="+">0+</h3>
                         <p>Total Raised</p>
                     </div>
                     <div class="stat fade-in">
-                        <h3>95%</h3>
+                        <h3 id="success-rate" data-suffix="%">0%</h3>
                         <p>Success Rate</p>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
             </div>
 
             <div class="students-grid" id="studentsGrid">
-                <!-- Student cards will be dynamically loaded here by script.js (see loadStudents function) -->
+                <!-- Student cards will be dynamically loaded here by script.js (see displayStudentProfiles function) -->
             </div>
         </div>
     </section>
@@ -382,6 +382,7 @@
                 <div class="student-info" id="donationStudentInfo">
                     <!-- Student info will be populated here -->
                 </div>
+                <div id="donationFormErrors" style="display:none;"></div>
                 <form id="donationForm" class="donation-form">
                     <div class="form-group">
                         <label for="donorName">Your Name *</label>
@@ -430,11 +431,37 @@
                     <div class="form-actions">
                         <button type="button" class="btn btn-ghost" onclick="closeDonationModal()">Cancel</button>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-heart"></i>
-                            Proceed to Payment
+                            <i class="fas fa-arrow-right"></i>
+                            Review Donation
                         </button>
                     </div>
                 </form>
+
+                <!-- Step 2: Confirmation View -->
+                <div id="donationConfirmation" class="donation-confirmation" style="display: none;">
+                    <h4>Please confirm your donation details:</h4>
+                    <div class="confirmation-summary">
+                        <div class="summary-item">
+                            <span>Donating to:</span>
+                            <strong id="confirmStudentName"></strong>
+                        </div>
+                        <div class="summary-item">
+                            <span>Amount:</span>
+                            <strong id="confirmAmount"></strong>
+                        </div>
+                        <div class="summary-item">
+                            <span>Payment Method:</span>
+                            <strong id="confirmPaymentMethod"></strong>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-ghost" id="backToDonationForm">Back</button>
+                        <button type="button" class="btn btn-primary" id="confirmDonationBtn">
+                            <i class="fas fa-check-circle"></i>
+                            Confirm & Pay
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -455,21 +482,5 @@
     </div>
 
     <script src="script.js"></script>
-    <script>
-    // Validate file size for documents input (max 5MB each)
-    document.getElementById('studentForm').addEventListener('submit', function(e) {
-        const documentsInput = document.getElementById('documents');
-        if (documentsInput) {
-            const maxSize = parseInt(documentsInput.getAttribute('data-max-size'), 10);
-            for (let file of documentsInput.files) {
-                if (file.size > maxSize) {
-                    alert('Each file must be less than 5MB.');
-                    e.preventDefault();
-                    break;
-                }
-            }
-        }
-    });
-    </script>
 </body>
 </html>

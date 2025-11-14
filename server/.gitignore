@@ -8,8 +8,6 @@ yarn-error.log*
 .env
 .env.local
 .env.production
-.env.example
-
 # Uploads
 uploads/
 temp/
@@ -41,5 +39,3 @@ data/
 
 # PM2
 .pm2/
-
-

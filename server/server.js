@@ -1,3 +1,15 @@
+// Load environment variables FIRST
+require('dotenv').config();
+
+// Environment variable validation
+const requiredEnv = [
+    'JWT_SECRET', 'MONGODB_URI', 'EMAIL_HOST', 'EMAIL_PORT', 'EMAIL_USER', 'EMAIL_PASSWORD', 'EMAIL_FROM', 'CLIENT_URL'
+];
+const missingEnv = requiredEnv.filter(key => !process.env[key]);
+if (missingEnv.length) {
+    console.error('Missing required environment variables:', missingEnv.join(', '));
+    process.exit(1);
+}
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -5,7 +17,6 @@ const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
-require('dotenv').config();
 
 // Import routes
 const authRoutes = require('./routes/auth');

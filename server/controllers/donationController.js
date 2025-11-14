@@ -68,7 +68,7 @@ exports.getDonation = async (req, res) => {
 
 // @desc    Create donation
 // @route   POST /api/donations
-// @access  Private
+// @access  Public
 exports.createDonation = async (req, res) => {
     try {
         const errors = validationResult(req);
@@ -79,14 +79,33 @@ exports.createDonation = async (req, res) => {
             });
         }
 
-        const { student, amount, paymentMethod, message, anonymous, receiveUpdates } = req.body;
+        // Support both authenticated (donor: req.user.id) and public donations (anonymous)
+        let donor = req.user?.id || null;
+        const { student, amount, paymentMethod, message, anonymous, receiveUpdates, donorName, donorEmail, donorPhone } = req.body;
+
+        // If no student ID, check if they sent studentId (frontend format)
+        const studentId = student || req.body.studentId;
+        if (!studentId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Student ID is required'
+            });
+        }
 
         // Check if student exists and is active
-        const studentProfile = await Student.findById(student);
+        const studentProfile = await Student.findById(studentId);
         if (!studentProfile || !studentProfile.isActive || studentProfile.status !== 'approved') {
             return res.status(400).json({
                 success: false,
                 message: 'Invalid student profile'
+            });
+        }
+
+        // For public donations, validate donor info is provided
+        if (!donor && (!donorName || !donorEmail)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Donor name and email are required for public donations'
             });
         }
 
@@ -95,23 +114,18 @@ exports.createDonation = async (req, res) => {
 
         // Create donation
         const donation = await Donation.create({
-            donor: req.user.id,
-            student,
+            donor,
+            student: studentId,
             amount,
             paymentMethod,
-            message,
+            message: message || req.body.donorMessage || '',
             anonymous: anonymous || false,
             receiveUpdates: receiveUpdates !== false,
             transactionId,
-            paymentStatus: 'pending',
+            paymentStatus: 'completed', // Auto-complete for demo
             ipAddress: req.ip,
             userAgent: req.headers['user-agent']
         });
-
-        // In a real implementation, this would initiate the actual payment process
-        // For now, we'll mark it as completed (simulated)
-        donation.paymentStatus = 'completed';
-        await donation.save();
 
         // Update student's raised amount and donor count
         studentProfile.amountRaised += donation.netAmount;
@@ -125,13 +139,15 @@ exports.createDonation = async (req, res) => {
         
         await studentProfile.save();
 
-        // Update donor statistics
-        await User.findByIdAndUpdate(req.user.id, {
-            $inc: {
-                totalDonations: amount,
-                donationCount: 1
-            }
-        });
+        // If authenticated user, update their donation stats
+        if (donor) {
+            await User.findByIdAndUpdate(donor, {
+                $inc: {
+                    totalDonations: amount,
+                    donationCount: 1
+                }
+            });
+        }
 
         // Send confirmation email
         // (implement email notification)
@@ -140,22 +156,30 @@ exports.createDonation = async (req, res) => {
         const io = req.app.get('io');
         if (io) {
             io.emit('newDonation', {
-                studentId: student,
+                studentId: studentId,
                 amount: donation.netAmount,
-                anonymous
+                anonymous: anonymous || false,
+                donorName: anonymous ? 'Anonymous' : (donorName || 'Generous Donor')
             });
         }
 
         res.status(201).json({
             success: true,
             message: 'Donation successful! Thank you for your generosity.',
-            donation
+            donation: {
+                id: donation._id,
+                amount: donation.amount,
+                netAmount: donation.netAmount,
+                paymentStatus: donation.paymentStatus,
+                transactionId: donation.transactionId
+            }
         });
     } catch (error) {
         console.error('Create donation error:', error);
         res.status(500).json({
             success: false,
-            message: 'Error processing donation'
+            message: 'Error processing donation',
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
 };

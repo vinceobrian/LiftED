@@ -662,5 +662,3 @@ MIT License - See LICENSE file
 **Built with ❤️ for LiftED Platform**
 
 *Last Updated: October 25, 2025*
-
-

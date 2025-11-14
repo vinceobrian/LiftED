@@ -70,7 +70,7 @@ exports.getStudent = async (req, res) => {
 
 // @desc    Create student profile
 // @route   POST /api/students
-// @access  Private (Students only)
+// @access  Public
 exports.createStudent = async (req, res) => {
     try {
         const errors = validationResult(req);
@@ -81,38 +81,108 @@ exports.createStudent = async (req, res) => {
             });
         }
 
-        // Check if user already has a student profile
-        const existingProfile = await Student.findOne({ user: req.user.id });
+        // Extract student data
+        const {
+            institution,
+            course,
+            yearOfStudy,
+            year,
+            amountNeeded,
+            fundingType,
+            story,
+            firstName,
+            lastName,
+            email,
+            phone,
+            studentId,
+            urgent,
+            daysLeft
+        } = req.body;
+
+        // Determine year (accept both yearOfStudy and year)
+        const studentYear = year || yearOfStudy || 1;
+
+        // For public submissions (not authenticated), create or find user
+        let userId = req.user?.id;
+        
+        if (!userId) {
+            // Check if user exists by email
+            let user = await User.findOne({ email });
+            
+            if (!user) {
+                // Create new user for public application
+                // Generate a temporary password
+                const tempPassword = Math.random().toString(36).slice(-8);
+                user = await User.create({
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    password: tempPassword,
+                    role: 'student',
+                    verified: false // Require email verification
+                });
+            }
+            userId = user._id;
+        }
+
+        // Check if user already has a pending student profile
+        const existingProfile = await Student.findOne({ 
+            user: userId,
+            status: { $in: ['pending', 'approved'] }
+        });
+        
         if (existingProfile) {
             return res.status(400).json({
                 success: false,
-                message: 'You already have a student profile'
+                message: 'You already have an active student application'
             });
         }
 
         const studentData = {
-            user: req.user.id,
-            ...req.body
+            user: userId,
+            institution,
+            course,
+            yearOfStudy: studentYear,
+            amountNeeded: parseInt(amountNeeded),
+            fundingType: fundingType || 'tuition',
+            story,
+            studentId: studentId || undefined,
+            urgent: urgent === 'true' || urgent === true || false,
+            daysLeft: daysLeft ? parseInt(daysLeft) : 30,
+            status: 'pending' // Require admin approval
         };
 
         const student = await Student.create(studentData);
 
         // Update user with student profile reference
-        await User.findByIdAndUpdate(req.user.id, { studentProfile: student._id });
+        await User.findByIdAndUpdate(userId, { studentProfile: student._id });
 
         // Populate user data before sending response
-        await student.populate('user', 'firstName lastName email');
+        await student.populate('user', 'firstName lastName email phone');
+
+        // Send confirmation email to student
+        // (implement email notification with next steps)
 
         res.status(201).json({
             success: true,
-            message: 'Student profile created successfully. Your application is pending review.',
-            student
+            message: 'Student profile created successfully. Your application is pending review. You will receive an email confirmation shortly.',
+            student: {
+                id: student._id,
+                firstName: student.firstName || firstName,
+                lastName: student.lastName || lastName,
+                course: student.course,
+                institution: student.institution,
+                status: student.status,
+                amountNeeded: student.amountNeeded
+            }
         });
     } catch (error) {
         console.error('Create student error:', error);
         res.status(500).json({
             success: false,
-            message: 'Error creating student profile'
+            message: 'Error creating student profile',
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
 };

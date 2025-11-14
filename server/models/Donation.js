@@ -107,7 +107,7 @@ donationSchema.pre('save', function(next) {
 donationSchema.index({ donor: 1, createdAt: -1 });
 donationSchema.index({ student: 1, createdAt: -1 });
 donationSchema.index({ paymentStatus: 1 });
-donationSchema.index({ transactionId: 1 });
+// transactionId is already unique via schema definition above
 
 module.exports = mongoose.model('Donation', donationSchema);
 
