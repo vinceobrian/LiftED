@@ -1,8 +1,27 @@
 let students = [];
 let statistics = {};
 
-// API base (adjust for production via a build-time variable or window.__API_BASE__)
-const API_BASE = (window.__API_BASE__ || 'http://localhost:5000') + '/api';
+// API base - automatically detects environment
+// Development: http://localhost:5000/api
+// Production: uses window.__API_BASE__ or current domain
+function getAPIBase() {
+    if (window.__API_BASE__) {
+        return window.__API_BASE__ + '/api';
+    }
+    
+    // In production on Vercel, use the Render backend
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        // For Vercel deployment, use your Render backend URL
+        const backendUrl = window.location.hostname.includes('vercel') 
+            ? 'https://lifted-backend.onrender.com'
+            : `${window.location.protocol}//${window.location.hostname}`;
+        return backendUrl + '/api';
+    }
+    
+    return 'http://localhost:5000/api';
+}
+
+const API_BASE = getAPIBase();
 
 // Auth helpers
 function getAuthToken() {

@@ -108,6 +108,26 @@ This includes:
 - ✅ Testing procedures
 - ✅ Troubleshooting tips
 
+### 🌐 Production Deployment
+
+To deploy to production on Render (backend) and Vercel (frontend):
+
+**Quick Start**: [PRODUCTION_QUICK_START.md](PRODUCTION_QUICK_START.md)
+- 5-step guide to get live in 15 minutes
+- Essential configuration only
+
+**Full Guide**: [PRODUCTION_DEPLOYMENT.md](PRODUCTION_DEPLOYMENT.md)
+- Comprehensive step-by-step instructions
+- Detailed configuration for all services
+- Custom domain setup
+- Security best practices
+
+**Deployment Checklist**: [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md)
+- Complete pre-launch verification
+- Security verification
+- Performance testing
+- Monitoring setup
+
 ### Troubleshooting & Common Issues
 
 If you encounter any errors or issues:

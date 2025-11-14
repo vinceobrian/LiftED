@@ -77,6 +77,7 @@ cp env.example .env
 # Option A: Local MongoDB
 mongod
 
+
 # Option B: MongoDB Atlas (Cloud)
 # Just use your Atlas connection string in .env
 ```
