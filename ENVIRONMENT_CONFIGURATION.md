@@ -202,9 +202,9 @@ cors({
 
 **Development** (Testing):
 ```env
-STRIPE_SECRET_KEY=sk_test_4eC39HqLyjWDarhtT657A1B2
-STRIPE_PUBLISHABLE_KEY=pk_test_4eC39HqLyjWDarhtT657A1B2
-STRIPE_WEBHOOK_SECRET=whsec_test_secret_key
+STRIPE_SECRET_KEY=
+STRIPE_PUBLISHABLE_KEY=
+STRIPE_WEBHOOK_SECRET=
 ```
 
 **Production** (Live):
