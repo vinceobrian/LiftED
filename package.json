@@ -2,13 +2,15 @@
   "name": "lifted-crowdfunding",
   "version": "1.0.0",
   "description": "LiftED - Student crowdfunding platform for education support",
-  "main": "index.html",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
-    "start": "npx http-server . -p 3000 -o",
-    "dev": "npx live-server --port=3000 --open=/index.html",
-    "build": "echo 'Static site - no build needed'",
-    "serve": "npx http-server . -p 3000",
-    "preview": "npm run serve"
+    "start": "node server/server.js",
+    "dev": "cd server && npm run dev",
+    "frontend-dev": "npx live-server --port=3000 --open=/index.html",
+    "frontend-serve": "npx http-server . -p 3000"
   },
   "keywords": [
     "crowdfunding",
@@ -18,9 +20,5 @@
     "kenya"
   ],
   "author": "LiftED Team",
-  "license": "MIT",
-  "devDependencies": {
-    "http-server": "^14.1.1",
-    "live-server": "^1.2.2"
-  }
+  "license": "MIT"
 }

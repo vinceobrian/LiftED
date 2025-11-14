@@ -1,7 +1,6 @@
 SETUP_GUIDE.md
 test.html
 server.log
-ENVIRONMENT_CONFIGURATION.md
 
 # Environment variables - NEVER commit these
 .env
